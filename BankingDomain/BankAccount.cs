@@ -10,7 +10,7 @@ namespace BankingDomain
             return _currentBalance;
         }
 
-        public void Deposit(decimal amountToDeposit)
+        public virtual void Deposit(decimal amountToDeposit) // virtual makes the account overrideable (Like Java's methods are by defualt)
         {
             _currentBalance += amountToDeposit;
         }
