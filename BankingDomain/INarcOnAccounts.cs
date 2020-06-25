@@ -2,6 +2,6 @@
 {
     public interface INarcOnAccounts
     {
-        void NotifyOfWithdraw(object amountToWithdraw, decimal amountToWithdraw1);
+        void NotifyOfWithdraw(BankAccount bankAccount, decimal amountToWithdraw);
     }
 }
