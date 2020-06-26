@@ -21,12 +21,19 @@ namespace BankingDomain
 
         public void Deposit(decimal amountToDeposit)
         {
-            // the amount to deposit, the current balance
-            // WTCYWYH
-
             GuardAmount(amountToDeposit);
             decimal amountOfBonus = _bonusCalculator.GetDepositBonusFor(amountToDeposit, _currentBalance);
             _currentBalance += amountToDeposit + amountOfBonus;
+        }
+
+        public void Withdraw(decimal amountToWithdraw)
+        {
+            GuardAmount(amountToWithdraw);
+            GuardOverdraft(amountToWithdraw);
+
+
+            _feds.NotifyOfWithdraw(this, amountToWithdraw);
+            _currentBalance -= amountToWithdraw;
         }
 
         private void GuardAmount(decimal amountToDeposit)
@@ -36,16 +43,7 @@ namespace BankingDomain
                 throw new BadAmountException();
             }
         }
-        public void Withdraw(decimal amountToWithdraw)
-        {
-            GuardAmount(amountToWithdraw);
-            GuardOverdraft(amountToWithdraw);
-
-            
-                _feds.NotifyOfWithdraw(this, amountToWithdraw);
-                _currentBalance -= amountToWithdraw;
-        }
-
+        
         public void GuardOverdraft(decimal amountToWithdraw)
         {
             if (amountToWithdraw > _currentBalance)
